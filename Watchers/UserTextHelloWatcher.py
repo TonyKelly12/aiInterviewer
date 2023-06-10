@@ -1,4 +1,5 @@
 import time
+import os
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -15,13 +16,13 @@ class UserHelloTextWatcher(FileSystemEventHandler):
 def StartUserHelloTextWatcher():
     print('watching for hello text input')
     # put the path to the directory you want to monitor here
-    path_to_watch = "../Outpputs/UserOutputs/text"
+    path_to_watch = "C:/Users/Tony/Documents/Repos/pythonEnvironments/AiInterview/Outpputs/UserOutputs/text"
     event_handler = UserHelloTextWatcher()
     
     userHelloTextObserver = Observer()
     userHelloTextObserver.schedule(event_handler, path=path_to_watch, recursive=True)
     userHelloTextObserver.start()
-            
+    print('user hello text watcher started')     
             
     try:
         while True:

@@ -1,8 +1,9 @@
 import os
+import multiprocessing
 import tkinter as tk
 from Services import prepChatbot, sendInterviewQuestion
 from Util import userHello, askInterviewQuestion
-from Watchers import StartAITextWatcher, StartUserAudioHelloWatcher,StartUserAudioWatcher,StartUserTextWatcher, UserHelloTextWatcher, UserTextWatcher
+from Watchers import StartAITextWatcher, StartUserAudioHelloWatcher,StartUserAudioWatcher,StartUserTextWatcher, UserHelloTextWatcher, UserTextWatcher,AITextWatcher,UserAudioHelloWatcher,UserAudioWatcher
 from Outpputs import getUserAudio, getUserText, getAiAudio, getAiText
 
 class InterviewGUI:
@@ -38,15 +39,35 @@ class InterviewGUI:
 
         self.root.mainloop()
     
+    
+    def startWatchers(event):
+        if __name__ == "__main__":
+            AITextWatcher.process = multiprocessing.Process(target=AITextWatcher.StartAITextWatcher)
+            AITextWatcher.process.start()
+
+            UserAudioHelloWatcher.process = multiprocessing.Process(target=UserAudioHelloWatcher.StartUserAudioHelloWatcher)
+            UserAudioHelloWatcher.process.start()
+
+            UserAudioWatcher.process = multiprocessing.Process(target=UserAudioWatcher.StartUserAudioWatcher)
+            UserAudioWatcher.process.start()
+
+            UserHelloTextWatcher.process = multiprocessing.Process(target=UserHelloTextWatcher.StartUserHelloTextWatcher)
+            UserHelloTextWatcher.process.start()
+
+            UserTextWatcher.process = multiprocessing.Process(target=UserTextWatcher.StartUserTextWatcher)
+            UserTextWatcher.process.start()
+
+    def stopWatchers(event):
+        AITextWatcher.process.terminate()
+        UserAudioHelloWatcher.process.terminate()
+        UserAudioWatcher.process.terminate()
+        UserHelloTextWatcher.process.terminate()
+        UserTextWatcher.process.terminate()
+
     def startChat(event):
 
-        # Starting Folder Watchers to Trigger events
-        StartAITextWatcher()
-        StartUserAudioHelloWatcher()
-        StartUserAudioWatcher()
-        # StartUserHelloTextWatcher()
-        StartUserTextWatcher()
-
+        
+        InterviewGUI.startWatchers(event)
 
         userHello()
 
@@ -71,6 +92,6 @@ class InterviewGUI:
             print(aiResponse)
         else:
             print("No text file created")
-
+    
 
 InterviewGUI()

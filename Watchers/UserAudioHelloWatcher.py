@@ -1,11 +1,12 @@
 import time
+import os
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from Services import runGPTService
 
 
-openFilePath = "../Outpputs/UserOutputs/audio/userAudioInput.wav"
-writeFilePath = "../Outpputs/UserOutputs/text/userTextInput.txt"
+openFilePath = "C:/Users/Tony/Documents/Repos/pythonEnvironments/AiInterview/Outpputs/UserOutputs/audio/userAudioInput.wav"
+writeFilePath = "C:/Users/Tony/Documents/Repos/pythonEnvironments/AiInterview/Outpputs/UserOutputs/text/userTextInput.txt"
 class UserAudioHelloWatcher(FileSystemEventHandler):
  
 
@@ -22,12 +23,12 @@ class UserAudioHelloWatcher(FileSystemEventHandler):
 def StartUserAudioHelloWatcher():
     print('watching for user Hello input')
     # put the path to the directory you want to monitor here
-    path_to_watch = "../Outpputs/UserOutputs/audio"
+    path_to_watch = "C:/Users/Tony/Documents/Repos/pythonEnvironments/AiInterview/Outpputs/UserOutputs/audio"
     event_handler = UserAudioHelloWatcher()
     userAudioHelloObserver = Observer()
     userAudioHelloObserver.schedule(event_handler, path=path_to_watch, recursive=True)
     userAudioHelloObserver.start()
-    
+    print('user audio hello watcher started')
     try:
         while True:
             time.sleep(1)
